@@ -1,0 +1,109 @@
+==============================================================================
+  AppleBonker                                       M. Nagy - September 2013
+==============================================================================
+
+AppleBonker is a delta-frame robot designed to allow automation of physical
+interactions with smartphones.  Some of the design targets and details are:
+
+  1) can accomodate up to 3 smartphones at a time (Galaxy 4S size)
+  2) can visually aquire and target buttons and icons on target phones
+  3) can perform push or swipe actions
+  4) can visually confirm results of actions
+
+AppleBonker is a reference to the Beetles 'Yellow Submarine' movie, in case
+you were wondering.
+
+From a programmatic point of view the robot consists of a usb-interfaced
+servo controller, a camera, a spring-loaded stylus, an ultrasonic distance
+transducer, plus three potentiometers and a pushbutton for manual control.
+The potentiometers, pushbutton, distance transducer and three servos are
+interfaced via the servo controller.
+
+The control software is implemented in python and uses the opencv library
+for image analysis.
+
+==============================================================================
+Software Requirements
+==============================================================================
+
+The two basic subsystems which need to work in tandem to monitor and control
+the robot are python/opencv (camera) and the pololu/maestro sdk (controller).
+Also, the camera must be recognized by a 'webcam' type driver on the system
+so that opencv can use it (that seems to work on Mac OSX and Windows 7 with
+no problem).
+
+Of the three possible working environments, the situations are as follows:
+
+  Windows 7
+    ok: webcam drivers
+    ok: python + opencv
+    ok: microsoft visual studio + pololu sdk
+
+  Mac OSX
+    ok: webcam drivers
+    ok: python + opencv
+    problem: pololu sdk not supported
+
+  Linux
+    problem: webcam drivers?
+    ok: python + opencv
+    ok: gcc/mono + pololu sdk
+
+---------------------------
+  Installing on Windows 7
+---------------------------
+
+  The python/opencv requirement is relatively easy to meet.  On Windows 7
+  just install python-2.7.5.msi from the official python home page, then go
+  to:
+
+    http://www.lfd.usi.edu/~gohlke/pythonlibs/
+
+  and navigate to and install the following packages (in this order):
+
+    numpy-MKL-1.7.1.win32-py27.exe
+    opencv-python-2.4.6.win32-py27.exe
+
+  Finally, add the following to the PATH environment variable:
+
+    c:\python27
+
+  You will need Microsoft Visual Studio 2012 Express to use the Maestro SDK
+  on Windows 7, so download and install it from Microsoft if necessary and
+  then apply any patches to bring it up to date.
+
+  Finally, download the Maestro SDK from Pololu.
+
+-----------------------
+  Installing on Linux
+-----------------------
+
+  On Ubuntu 12.04 LTS with python 2.7.3, do:
+
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo apt-get install gnome-panel
+    sudo apt-get install gnome-tweak-tool
+    log off, select gnome classic, log back on
+    select pangolin background
+    sudo apt-get install python-pip
+    go to https://help.ubuntu.com/community/OpenCV and download the opencv
+      installation script to your home directory as opencv-install.sh
+    open a terminal windows (ctrl-alt-t) and do:
+      chmod +x opencv-install.sh
+      ./opencv-install.sh
+    getting up to speed with sift:
+      http://www.maths.lth.se/matematiklth/personal/solem/downloads/sift.py
+      sudo apt-get install python-numpy python-scipy python-matplotlib ipython
+        ipython-notebook python-pandas python-sympy python-nose
+      >>>from PIL import Image
+      >>>from numpy import *
+      >>>import sift
+      >>>sift.process_image('basmati.pgm', 'basmati.key')
+      >>>l1,d1 = sift.read_features_from_file('basmati.key')
+      >>>im = array(Image.open('basmati.pgm'))
+      >>>sift.plot_features(im,l1)
+
+==============================================================================
+  End
+==============================================================================

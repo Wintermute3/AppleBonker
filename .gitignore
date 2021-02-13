@@ -1,0 +1,6 @@
+build/
+env/
+controlbox
+sift/build/
+*.pyc
+*.o
