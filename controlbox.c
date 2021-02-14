@@ -102,7 +102,7 @@ static Maestro12_p Robot, CntBx;
 
 static void ControlTransfer(Maestro12_p Maestro,
     uint8_t  RequestType,
-    uint8_t  Request    , 
+    uint8_t  Request    ,
     uint16_t Value      ,
     uint16_t Index      ,
     uint8_t* Data       , // data buffer
@@ -122,7 +122,7 @@ static void GetInputs(Maestro12_p Maestro) {
 //----------------------------------------------------------------------------
 //  Get the value (0..255) of an input on a maestro controller.  This call
 //  returns the value read by the most recent call to GetInputs(), remapped
-//  from the range (0..1023). 
+//  from the range (0..1023).
 //----------------------------------------------------------------------------
 
 static uint8_t GetInput(Maestro12_p Maestro,
@@ -133,7 +133,7 @@ static uint8_t GetInput(Maestro12_p Maestro,
 
 //----------------------------------------------------------------------------
 //  Get the value (0 or 255) of an button on a maestro controller.  This call
-//  returns the value read by the most recent call to GetInputs(). 
+//  returns the value read by the most recent call to GetInputs().
 //----------------------------------------------------------------------------
 
 static uint8_t GetButton(Maestro12_p Maestro,
@@ -149,7 +149,7 @@ static uint8_t GetButton(Maestro12_p Maestro,
 
 static void SetOutput(Maestro12_p Maestro,
     uint8_t Channel , // channel index 0..11
-    uint8_t Position  // position target 
+    uint8_t Position  // position target
   ) {
   uint16_t Value = (((uint16_t) Position) * 15) + 4088;
   ControlTransfer(Maestro, 0x40, REQUEST_SET_TARGET, Value, Channel, 0, 0);
@@ -271,7 +271,7 @@ static void UsbScanDevices(libusb_device** DeviceList) {
         Descriptor.idVendor, Descriptor.idProduct,
           libusb_get_bus_number(Device), libusb_get_device_address(Device));
       if (libusb_open(Device, &Handle)) {
-        printf("   Open error!\n");
+        perror("Open error");
       } else {
         char * Serial = GetSerialNumber(Handle, Descriptor.iSerialNumber);
         printf("  Serial Number-> '%s'\n", Serial);
@@ -350,6 +350,13 @@ int main(void) {
       while (DoCntBx()) {
         if (Robot) {
           DoRobot();
+        } else {
+          printf("%3d %3d %3d %3d\n",
+            GetInput(CntBx,  8),
+            GetInput(CntBx,  9),
+            GetInput(CntBx, 10),
+            GetInput(CntBx, 11)
+          );
         }
         usleep(10000); // 10ms
   } } }
