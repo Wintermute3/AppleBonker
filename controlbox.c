@@ -74,10 +74,10 @@
 #pragma pack(1)
 
 typedef struct ServoSetting_s {
-    uint16_t Position    ;
-    uint16_t Target      ;
-    uint16_t Speed       ;
-    uint8_t  Acceleration;
+  uint16_t Position    ;
+  uint16_t Target      ;
+  uint16_t Speed       ;
+  uint8_t  Acceleration;
 } ServoSetting_t;
 
 typedef struct Maestro12_s {
